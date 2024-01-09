@@ -15,9 +15,11 @@ export default function Signup() {
 	async function handleSubmit() {
 		try {
 			let res = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}/user/signup`, formData);
-			console.log(res);
+			alert(res.data.Message);
+			console.log(res.data.Message);
 		} catch (error) {
-			console.log(error);
+			alert(error.response.data.Message);
+			console.log(error.response.data.Message);
 		}
 	}
 
