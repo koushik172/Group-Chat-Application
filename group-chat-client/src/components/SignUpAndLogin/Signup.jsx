@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Signup() {
 	const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "" });
@@ -11,8 +12,13 @@ export default function Signup() {
 		}));
 	}
 
-	function handleSubmit() {
-		console.log(formData);
+	async function handleSubmit() {
+		try {
+			let res = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}/user/signup`, formData);
+			console.log(res);
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	useEffect(() => {
