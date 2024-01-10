@@ -33,3 +33,25 @@ export const signup = async (req, res) => {
 		await transaction.rollback();
 	}
 };
+
+export const login = async (req, res) => {
+	const { email, password } = req.body;
+	User.findOne({ where: { email: email } })
+		.then(async (result) => {
+			// password get a binay value to see if it is correct.
+			let compare_password = await bcrypt.compare(password, result.password);
+			if (compare_password) {
+				res.status(200).json({
+					Messege: "Login Sucessful",
+					username: result.name,
+					premium: result.premium,
+				});
+			} else {
+				res.status(401).send({ Messege: "Wrong Password" });
+			}
+		})
+		.catch((error) => {
+			console.log(error);
+			res.status(404).send({ Messege: "User Not Found" });
+		});
+};

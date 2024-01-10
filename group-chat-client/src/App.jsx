@@ -1,9 +1,5 @@
-import SignUpAndLogin from "./pages/SignUpAndLogin";
+import AppRouter from "./routes/routes";
 
 export default function App() {
-	return (
-		<div>
-			<SignUpAndLogin />
-		</div>
-	);
+	return <AppRouter />;
 }
