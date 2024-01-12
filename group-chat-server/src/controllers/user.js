@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import sequelize from "../utils/database.js";
 import User from "../models/user.js";
@@ -41,10 +42,11 @@ export const login = async (req, res) => {
 			// password get a binay value to see if it is correct.
 			let compare_password = await bcrypt.compare(password, result.password);
 			if (compare_password) {
+				const token = jwt.sign({ username: result.name, userId: result.id }, process.env.JWT_SECRET_KEY);
 				res.status(200).json({
 					Messege: "Login Sucessful",
 					username: result.name,
-					premium: result.premium,
+					token: token,
 				});
 			} else {
 				res.status(401).send({ Messege: "Wrong Password" });
