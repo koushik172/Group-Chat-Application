@@ -4,7 +4,11 @@ import cors from "cors";
 
 import sequelize from "./utils/database.js";
 
+import User from "./models/user.js";
+import Contact from "./models/contact.js";
+
 import userRouter from "./routes/user.js";
+import contactRouter from "./routes/contact.js";
 
 const app = express();
 
@@ -13,7 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({ origin: "http://localhost:5173", methods: ["GET", "POST"] }));
 
+User.hasMany(Contact);
+Contact.belongsTo(User);
+
 app.use("/user", userRouter);
+app.use("/contact", contactRouter);
 
 await sequelize
 	.sync()

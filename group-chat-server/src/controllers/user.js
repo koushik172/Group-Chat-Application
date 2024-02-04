@@ -7,6 +7,7 @@ import User from "../models/user.js";
 export const signup = async (req, res) => {
 	const transaction = await sequelize.transaction();
 	const { name, email, password, phone } = req.body;
+	console.log(req.body);
 	let hash;
 
 	try {
@@ -14,6 +15,7 @@ export const signup = async (req, res) => {
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({ Message: "Unknown Error" });
+		return;
 	}
 
 	try {

@@ -19,20 +19,22 @@ export default function Login() {
 	async function handleSubmit() {
 		try {
 			let res = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}/user/login`, formData);
-			if (res.status === 200) navigate("/home");
+			localStorage.setItem("Username", res.data.username);
+			localStorage.setItem("Token", res.data.token);
+			if (res.status === 200) navigate("/");
 		} catch (error) {
 			console.log(error.response.data);
 		}
 	}
 
-	useEffect(() => {
+	useEffect(() => {	
 		document.title = "Chat app - Login";
 	}, []);
 
 	return (
 		<div className="h-screen bg-blue-950 flex flex-col justify-center items-center ">
 			<div className="bg-slate-300 p-5 flex flex-col items-center space-y-6 rounded-xl pt-8">
-				<div className="flex flex-col space-y-4">
+				<div className="flex flex-col space-y-4 w-full">
 					<div className="flex justify-between space-x-4 items-center">
 						<label className="font-semibold" htmlFor="email">
 							Email
