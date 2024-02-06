@@ -1,19 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import axios from "axios";
+
+import { useContactContext } from "../Context/ContactContext";
 
 export default function Chat() {
+	const { currentChat } = useContactContext();
+
+	const [message, setMessage] = useState("");
+
+	async function handleMessageChange(e) {
+		setMessage(e.target.value);
+	}
+
+	async function sendMessage() {
+		console.log(message);
+
+		try {
+			const res = await axios.post(
+				`http://${import.meta.env.VITE_SERVER_IP}/chat/send-message`,
+				{ message: message, receiverId: currentChat.contactId },
+				{
+					headers: { Authorization: localStorage.getItem("Token") },
+				}
+			);
+			alert(res.data);
+		} catch (error) {
+			console.log(error);
+		}
+
+		setMessage("");
+	}
+
+	useEffect(() => {}, [currentChat]);
+
 	return (
 		<>
 			<div className="h-full w-10/12 flex flex-col justify-between items-center p-4 text-slate-200 ">
-				<p className="bg-violet-900/80 w-full flex justify-center p-3 rounded-md font-semibold">Chat - Name/Group</p>
+				{/* Chat Header */}
+				<p className="bg-violet-900/80 w-full flex justify-center p-3 rounded-md font-semibold">
+					{currentChat.contactName ? currentChat.contactName : "Select a Chat"}
+				</p>
 
+				{/* Chat Board */}
 				<ol className="bg-violet-700/40 w-full h-[12rem] md:h-[12rem] lg:h-[32rem] p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto">
-					<li className="text-right">user text - 1</li>
-					<li className="text-left">user text - 2</li>
+					{currentChat.contactName ? (
+						<div>
+							<li className="text-right">user text - 1</li>
+							<li className="text-left">user text - 2</li>
+						</div>
+					) : (
+						<div className="flex justify-center items-center h-full text-6xl font-semibold">
+							Welcome {localStorage.getItem("Username")}
+						</div>
+					)}
 				</ol>
 
+				{/* Chat Box */}
 				<div className="bg-violet-700/40 w-full p-2 gap-4 flex rounded-md">
-					<input name="" className="rounded-md w-full"></input>
-					<button className="mr-2 px-4 py-1 rounded-sm text-slate-200 bg-violet-900/80 font-semibold">Send</button>
+					<input name="" className="rounded-md w-full text-slate-800/80 px-2" value={message} onChange={handleMessageChange}></input>
+					<button className="mr-2 px-4 py-1 rounded-sm text-slate-200 bg-violet-900/80 font-semibold" onClick={sendMessage}>
+						Send
+					</button>
 				</div>
 			</div>
 		</>

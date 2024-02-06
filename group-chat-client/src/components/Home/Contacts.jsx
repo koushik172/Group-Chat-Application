@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import { useContactContext } from "../Context/ContactContext";
+
 export default function Contact() {
+	const { currentChat, setCurrentChat } = useContactContext();
+
 	const [showContact, setShowContact] = useState(false);
 
 	const [newContact, setNewContact] = useState("");
@@ -44,24 +48,25 @@ export default function Contact() {
 				headers: { Authorization: localStorage.getItem("Token") },
 			});
 			setContacts(res.data.Contacts);
-			console.log(typeof Object.values(res.data));
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
 	async function selectChat(e) {
-		console.log(e.currentTarget);
+		let li = e.currentTarget;
 		const selectedChat = { contactId: "", contactName: "", contactNumber: "" };
+		selectedChat.contactId = li.getAttribute("name");
+		selectedChat.contactName = li.querySelector('p[name="contactName"]').textContent;
+		selectedChat.contactNumber = li.querySelector('p[name="contactNumber"]').textContent;
+		setCurrentChat(selectedChat);
 	}
 
 	useEffect(() => {
 		getContacts();
 	}, []);
 
-	useEffect(() => {
-		console.log(typeof contacts, contacts);
-	}, [contacts]);
+	useEffect(() => {}, [contacts, currentChat]);
 
 	return (
 		<div className="h-full w-2/12 flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
@@ -94,15 +99,15 @@ export default function Contact() {
 							<li key={key} name={contact.id} className="p-2 gap-1 flex flex-col cursor-pointer" onClick={selectChat}>
 								<div className="flex items-baseline justify-between">
 									<p className="whitespace-pre font-bold text-xl" name="contactName">
-										{contact.contactName}{" "}
+										{contact.contactName}
 									</p>
 									<p className="text-sm font-semibold" name="contactNumber">
 										{contact.contactNumber}
 									</p>
 								</div>
-								<p className="w-full flex whitespace-pre text-sm font-semibold">
+								<div className="w-full flex whitespace-pre text-sm font-semibold">
 									Last Text: <p className="font-thin">Lorem, ipsum dolor sit por vas</p>
-								</p>
+								</div>
 							</li>
 						);
 					})}
