@@ -14,7 +14,10 @@ export default function Chat() {
 	}
 
 	async function sendMessage() {
-		console.log(message);
+		if (!currentChat.contactId) {
+			alert("Select a chat!");
+			return;
+		}
 
 		try {
 			const res = await axios.post(
@@ -57,9 +60,13 @@ export default function Chat() {
 				</ol>
 
 				{/* Chat Box */}
-				<div className="bg-violet-700/40 w-full p-2 gap-4 flex rounded-md">
+				<div className="bg-violet-700/40 w-full p-2 gap-2 flex rounded-md">
 					<input name="" className="rounded-md w-full text-slate-800/80 px-2" value={message} onChange={handleMessageChange}></input>
-					<button className="mr-2 px-4 py-1 rounded-sm text-slate-200 bg-violet-900/80 font-semibold" onClick={sendMessage}>
+					<button
+						className={` px-4 py-1 rounded-md text-slate-200 font-semibold flex ${!message.length ? "bg-sky-900/80" : "bg-sky-500/80"}`}
+						disabled={!message.length}
+						onClick={sendMessage}
+					>
 						Send
 					</button>
 				</div>
