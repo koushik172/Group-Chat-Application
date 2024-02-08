@@ -58,6 +58,10 @@ export default function Chat() {
 		console.log(messageList);
 	}, [messageList]);
 
+	useEffect(() => {
+		setInterval(1000, getMessage());
+	});
+
 	return (
 		<>
 			<div className="h-full w-10/12 flex flex-col justify-between items-center p-4 text-slate-200 ">
