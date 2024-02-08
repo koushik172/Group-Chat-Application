@@ -7,8 +7,8 @@ const ContactContext = createContext();
 export const ContactProvider = ({ children }) => {
 	const [currentChat, setCurrentChat] = useState({
 		contactId: "",
-		contactName: "",
-		contactNumber: "",
+		user2Id: "",
+		user2Name: "",
 	});
 
 	return <ContactContext.Provider value={{ currentChat, setCurrentChat }}>{children}</ContactContext.Provider>;

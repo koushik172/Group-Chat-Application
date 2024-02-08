@@ -7,4 +7,6 @@ const chatRouter = express.Router();
 
 chatRouter.post("/send-message", Verify_user, chatController.sendMessage);
 
+chatRouter.get("/get-message/:contactId", Verify_user, chatController.getMessage);
+
 export default chatRouter;

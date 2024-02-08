@@ -55,10 +55,10 @@ export default function Contact() {
 
 	async function selectChat(e) {
 		let li = e.currentTarget;
-		const selectedChat = { contactId: "", contactName: "", contactNumber: "" };
+		const selectedChat = { contactId: "", user2Name: "" };
 		selectedChat.contactId = li.getAttribute("name");
-		selectedChat.contactName = li.querySelector('p[name="contactName"]').textContent;
-		selectedChat.contactNumber = li.querySelector('p[name="contactNumber"]').textContent;
+		selectedChat.user2Id = li.querySelectorAll("div")[0].getAttribute("name");
+		selectedChat.user2Name = li.querySelector('p[name="user2Name"]').textContent;
 		setCurrentChat(selectedChat);
 	}
 
@@ -97,14 +97,15 @@ export default function Contact() {
 					contacts.map((contact, key) => {
 						return (
 							<li key={key} name={contact.id} className="p-2 gap-1 flex flex-col cursor-pointer" onClick={selectChat}>
-								<div className="flex items-baseline justify-between">
-									<p className="whitespace-pre font-bold text-xl" name="contactName">
-										{contact.contactName}
-									</p>
-									<p className="text-sm font-semibold" name="contactNumber">
-										{contact.contactNumber}
+								<div
+									className="flex items-baseline justify-between"
+									name={contact.user1Name === localStorage.getItem("Username") ? contact.user2Id : contact.user1Id}
+								>
+									<p className="whitespace-pre font-bold text-xl" name="user2Name">
+										{contact.user1Name === localStorage.getItem("Username") ? contact.user2Name : contact.user1Name}
 									</p>
 								</div>
+
 								<div className="w-full flex whitespace-pre text-sm font-semibold">
 									Last Text: <p className="font-thin">Lorem, ipsum dolor sit por vas</p>
 								</div>

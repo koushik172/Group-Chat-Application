@@ -19,11 +19,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({ origin: "http://localhost:5173", methods: ["GET", "POST"] }));
 
-User.hasMany(Contact);
-Contact.belongsTo(User);
-
-User.hasMany(Chat);
-Chat.belongsTo(User);
+Contact.hasMany(Chat);
+Chat.belongsTo(Contact);
 
 app.use("/user", userRouter);
 app.use("/contact", contactRouter);

@@ -11,15 +11,19 @@ const Contact = sequelize.define(
 			allowNull: false,
 			primaryKey: true,
 		},
-		contactId: {
+		user1Id: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 		},
-		contactNumber: {
+		user2Id: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+		},
+		user1Name: {
 			type: Sequelize.STRING,
 			allowNull: false,
 		},
-		contactName: {
+		user2Name: {
 			type: Sequelize.STRING,
 			allowNull: false,
 		},
@@ -28,7 +32,7 @@ const Contact = sequelize.define(
 		indexes: [
 			{
 				unique: true,
-				fields: ["userId", "contactId"],
+				fields: ["user1Id", "user2Id"],
 			},
 		],
 	}
