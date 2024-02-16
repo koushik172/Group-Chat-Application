@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ContactProvider } from "../Context/ContactContext";
 
-import Contact from "./Contacts";
+import AllContact from "./AllContacts";
 import Chat from "./Chat";
 
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
 					</p>
 					<div className="flex bg-indigo-50/30 w-full h-full rounded-md overflow-y-scroll">
 						{/* CHATLOG */}
-						<Contact />
+						<AllContact />
 
 						{/* CHATBOX */}
 						<Chat />

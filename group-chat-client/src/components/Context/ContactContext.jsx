@@ -11,6 +11,18 @@ export const ContactProvider = ({ children }) => {
 		user2Name: "",
 	});
 
+	function getLatestMessage() {
+		if (currentChat.contactId) {
+			setCurrentChat((prev) => ({ ...prev, Messages: JSON.parse(localStorage.getItem(currentChat.contactId)) }));
+		}
+	}
+
+	useEffect(() => {
+		setInterval(() => {
+			getLatestMessage();
+		}, 100);
+	}, [currentChat]);
+
 	return <ContactContext.Provider value={{ currentChat, setCurrentChat }}>{children}</ContactContext.Provider>;
 };
 

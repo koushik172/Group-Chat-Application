@@ -9,8 +9,6 @@ export default function Chat() {
 
 	const [message, setMessage] = useState("");
 
-	const [messageList, setMessageList] = useState();
-
 	async function handleMessageChange(e) {
 		setMessage(e.target.value);
 	}
@@ -22,14 +20,13 @@ export default function Chat() {
 		}
 
 		try {
-			const res = await axios.post(
+			await axios.post(
 				`http://${import.meta.env.VITE_SERVER_IP}/chat/send-message`,
 				{ message: message, receiverId: currentChat.user2Id, contactId: currentChat.contactId },
 				{
 					headers: { Authorization: localStorage.getItem("Token") },
 				}
 			);
-			alert(res.data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -37,30 +34,7 @@ export default function Chat() {
 		setMessage("");
 	}
 
-	async function getMessage() {
-		try {
-			const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/chat/get-message/${currentChat.contactId}`, {
-				headers: { Authorization: localStorage.getItem("Token") },
-			});
-			setMessageList(res.data);
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	useEffect(() => {
-		if (currentChat.contactId) {
-			getMessage();
-		}
-	}, [currentChat]);
-
-	useEffect(() => {
-		console.log(messageList);
-	}, [messageList]);
-
-	useEffect(() => {
-		setInterval(1000, getMessage());
-	});
+	useEffect(() => {}, [currentChat]);
 
 	return (
 		<>
@@ -71,17 +45,19 @@ export default function Chat() {
 				</p>
 
 				{/* Chat Board */}
-				<ol className="bg-violet-700/40 w-full h-[12rem] md:h-[12rem] lg:h-[32rem] p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto">
+				<ol className="bg-violet-700/40 w-full h-[12rem] md:h-[12rem] lg:h-[32rem] p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto ">
 					{currentChat.user2Name ? (
 						<div>
-							{messageList &&
-								messageList.map((item, index) => {
-									return (
-										<li className={`${currentChat.user2Id === item.senderId ? "text-left" : "text-right"}`} key={index}>
-											{item.message}
-										</li>
-									);
-								})}
+							{currentChat.Messages &&
+								currentChat.Messages.slice()
+									.reverse()
+									.map((item, index) => {
+										return (
+											<li className={`${currentChat.user2Id === item.senderId ? "text-left" : "text-right"}`} key={index}>
+												{item.message}
+											</li>
+										);
+									})}
 						</div>
 					) : (
 						<div className="flex justify-center items-center h-full text-6xl font-semibold">

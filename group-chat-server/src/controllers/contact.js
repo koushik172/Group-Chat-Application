@@ -39,7 +39,7 @@ export const addContact = async (req, res) => {
 export const getContacts = async (req, res) => {
 	try {
 		const conatcts = await Contact.findAll({
-			[Op.or]: [{ user1Id: req.user.id }, { user2Id: req.user.id }],
+			where: { [Op.or]: [{ user1Id: req.user.id }, { user2Id: req.user.id }] },
 		});
 		res.send({ Contacts: conatcts });
 		return;

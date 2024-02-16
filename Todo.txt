@@ -1,0 +1,4 @@
+1) Add the query params to accect last chat id in api call
+2) if 0 return last 10 message, !0 return from chat id to last
+
+3) Proper data handling in the front end.

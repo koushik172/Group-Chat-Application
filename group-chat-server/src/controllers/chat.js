@@ -1,6 +1,8 @@
 import sequelize from "../utils/database.js";
 import Chat from "../models/chat.js";
 
+import { Op } from "sequelize";
+
 export const sendMessage = async (req, res) => {
 	try {
 		await Chat.create({
@@ -19,15 +21,23 @@ export const sendMessage = async (req, res) => {
 
 export const getMessage = async (req, res) => {
 	try {
-		let messages = await Chat.findAll({ where: { contactId: req.params.contactId } });
+		let messages;
+		if (parseInt(req.params.chatId) === 0) {
+			messages = await Chat.findAll({ where: { contactId: req.params.contactId }, limit: 20, order: [["createdAt", "DESC"]] });
+		} else {
+			messages = await Chat.findAll({
+				where: { [Op.and]: [{ contactId: req.params.contactId }, { id: { [Op.gt]: req.params.chatId } }] },
+				limit: 20,
+				order: [["createdAt", "DESC"]],
+			});
+		}
 
-		if (messages.length < 1) {
-			res.status(200).send("No Messages");
+		if (messages.length < 1 || messages === undefined) {
+			res.status(200).send([]);
 			return;
 		}
 
 		if (req.user.id === parseInt(messages[0].senderId) || req.user.id === parseInt(messages[0].receiverId)) {
-			console.log(messages[0].senderId);
 			res.status(200).send(messages);
 			return;
 		}

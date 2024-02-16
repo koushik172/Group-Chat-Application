@@ -3,8 +3,10 @@ import axios from "axios";
 
 import { useContactContext } from "../Context/ContactContext";
 
-export default function Contact() {
-	const { currentChat, setCurrentChat } = useContactContext();
+import Contact from "./Contact";
+
+export default function AllContact() {
+	const { currentChat } = useContactContext();
 
 	const [showContact, setShowContact] = useState(false);
 
@@ -53,15 +55,6 @@ export default function Contact() {
 		}
 	}
 
-	async function selectChat(e) {
-		let li = e.currentTarget;
-		const selectedChat = { contactId: "", user2Name: "" };
-		selectedChat.contactId = li.getAttribute("name");
-		selectedChat.user2Id = li.querySelectorAll("div")[0].getAttribute("name");
-		selectedChat.user2Name = li.querySelector('p[name="user2Name"]').textContent;
-		setCurrentChat(selectedChat);
-	}
-
 	useEffect(() => {
 		getContacts();
 	}, []);
@@ -94,23 +87,8 @@ export default function Contact() {
 
 			<ol className="bg-violet-700/40 text-slate-300 w-full h-full rounded-md overflow-y-auto">
 				{contacts &&
-					contacts.map((contact, key) => {
-						return (
-							<li key={key} name={contact.id} className="p-2 gap-1 flex flex-col cursor-pointer" onClick={selectChat}>
-								<div
-									className="flex items-baseline justify-between"
-									name={contact.user1Name === localStorage.getItem("Username") ? contact.user2Id : contact.user1Id}
-								>
-									<p className="whitespace-pre font-bold text-xl" name="user2Name">
-										{contact.user1Name === localStorage.getItem("Username") ? contact.user2Name : contact.user1Name}
-									</p>
-								</div>
-
-								<div className="w-full flex whitespace-pre text-sm font-semibold">
-									Last Text: <p className="font-thin">Lorem, ipsum dolor sit por vas</p>
-								</div>
-							</li>
-						);
+					contacts.map((contact, index) => {
+						return <Contact contact={contact} key={index} />;
 					})}
 			</ol>
 		</div>
