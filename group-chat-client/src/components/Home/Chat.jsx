@@ -9,6 +9,8 @@ export default function Chat() {
 
 	const [message, setMessage] = useState("");
 
+	const [messageStorage, setMessageStorage] = useState(JSON.parse(localStorage.getItem(currentChat.contactId)));
+
 	async function handleMessageChange(e) {
 		setMessage(e.target.value);
 	}
@@ -34,7 +36,21 @@ export default function Chat() {
 		setMessage("");
 	}
 
-	useEffect(() => {}, [currentChat]);
+	useEffect(() => {
+		setMessageStorage(JSON.parse(localStorage.getItem(currentChat.contactId)));
+	}, [currentChat]);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			const newMessageStorage = JSON.parse(localStorage.getItem(currentChat.contactId));
+			if (JSON.stringify(newMessageStorage) !== JSON.stringify(messageStorage)) {
+				setMessageStorage(newMessageStorage);
+			}
+		}, 1000);
+
+		// Cleanup: clear the interval when the component unmounts
+		return () => clearInterval(interval);
+	}, [currentChat, messageStorage]);
 
 	return (
 		<>
@@ -45,11 +61,12 @@ export default function Chat() {
 				</p>
 
 				{/* Chat Board */}
-				<ol className="bg-violet-700/40 w-full h-[12rem] md:h-[12rem] lg:h-[32rem] p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto ">
+				<ol className="bg-violet-700/40 w-full h-[12rem] md:h-[12rem] lg:h-full p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto">
 					{currentChat.user2Name ? (
 						<div>
-							{currentChat.Messages &&
-								currentChat.Messages.slice()
+							{messageStorage &&
+								messageStorage
+									.slice()
 									.reverse()
 									.map((item, index) => {
 										return (

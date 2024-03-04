@@ -11,20 +11,15 @@ export const ContactProvider = ({ children }) => {
 		user2Name: "",
 	});
 
-	function getLatestMessage() {
-		if (currentChat.contactId) {
-			setCurrentChat((prev) => ({ ...prev, Messages: JSON.parse(localStorage.getItem(currentChat.contactId)) }));
-		}
-	}
+	const [currentGroup, setCurrentGroup] = useState({
+		groupId: "",
+		groupName: "",
+		groupOwner: "",
+	});
 
-	useEffect(() => {
-		setInterval(() => {
-			getLatestMessage();
-		}, 100);
-	}, [currentChat]);
+	const [panel, setPanel] = useState(localStorage.getItem("panel") || "contacts");
 
-	return <ContactContext.Provider value={{ currentChat, setCurrentChat }}>{children}</ContactContext.Provider>;
+	return <ContactContext.Provider value={{ currentChat, setCurrentChat, panel, setPanel }}>{children}</ContactContext.Provider>;
 };
 
-// Custom hook to use the AppContext
 export const useContactContext = () => useContext(ContactContext);

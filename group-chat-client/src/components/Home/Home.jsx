@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ContactProvider } from "../Context/ContactContext";
 
-import AllContact from "./AllContacts";
+import AllContact from "./AllContact/AllContacts";
 import Chat from "./Chat";
 
 export default function Home() {

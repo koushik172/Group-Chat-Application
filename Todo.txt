@@ -1,4 +1,5 @@
-1) Add the query params to accect last chat id in api call
-2) if 0 return last 10 message, !0 return from chat id to last
+1) Add group chat features  
 
-3) Proper data handling in the front end.
+2) Add crousel panel for all groups 
+
+3) Add routes and controllers for groups api.

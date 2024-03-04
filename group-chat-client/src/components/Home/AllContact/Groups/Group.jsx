@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import { useContactContext } from "../Context/ContactContext";
+import { useContactContext } from "../../../Context/ContactContext";
 
-export default function Contact({ contact, index }) {
+export default function Group({ contact, index }) {
 	const { setCurrentChat } = useContactContext();
 
 	async function selectChat(e) {

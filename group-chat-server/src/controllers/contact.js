@@ -1,4 +1,3 @@
-import sequelize from "../utils/database.js";
 import User from "../models/user.js";
 import Contact from "../models/contact.js";
 

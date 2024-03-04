@@ -4,13 +4,13 @@ import cors from "cors";
 
 import sequelize from "./utils/database.js";
 
-import User from "./models/user.js";
 import Contact from "./models/contact.js";
 import Chat from "./models/chat.js";
 
 import userRouter from "./routes/user.js";
 import contactRouter from "./routes/contact.js";
 import chatRouter from "./routes/chat.js";
+import groupRouter from "./routes/group.js";
 
 const app = express();
 
@@ -25,6 +25,7 @@ Chat.belongsTo(Contact);
 app.use("/user", userRouter);
 app.use("/contact", contactRouter);
 app.use("/chat", chatRouter);
+app.use("/group", groupRouter);
 
 await sequelize
 	.sync()

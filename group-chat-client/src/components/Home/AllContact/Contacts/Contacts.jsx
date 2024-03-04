@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { useContactContext } from "../Context/ContactContext";
-
+import { useContactContext } from "../../../Context/ContactContext";
 import Contact from "./Contact";
 
-export default function AllContact() {
-	const { currentChat } = useContactContext();
+export default function Contacts() {
+	const { setPanel } = useContactContext();
 
-	const [showContact, setShowContact] = useState(false);
+	const [showNewContactForm, setShowNewContactForm] = useState(false);
 
 	const [newContact, setNewContact] = useState("");
 
 	const [contacts, setContacts] = useState("");
 
-	function toogleContacts() {
-		setShowContact(!showContact);
+	function toogleShowNewContactForm() {
+		setShowNewContactForm(!showNewContactForm);
+	}
+
+	function tooglePanel() {
+		setPanel("groups");
+		localStorage.setItem("panel", "groups");
 	}
 
 	async function addContact() {
@@ -59,18 +63,26 @@ export default function AllContact() {
 		getContacts();
 	}, []);
 
-	useEffect(() => {}, [contacts, currentChat]);
+	useEffect(() => {}, [contacts]);
 
 	return (
 		<div className="h-full w-2/12 flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
-			<p className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-md">
-				Contacts{" "}
-				<a onClick={toogleContacts} className="cursor-pointer px-2 text-2xl items-center rounded-md">
-					+
-				</a>
-			</p>
+			<div className="w-full flex gap-2">
+				<p className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-md">
+					Contacts{" "}
+					<a onClick={toogleShowNewContactForm} className="cursor-pointer px-2 text-md select-none items-center rounded-md">
+						➕
+					</a>
+				</p>
+				<button
+					className="bg-violet-700/80 text-slate-200 font-bold text-lg  flex justify-between items-center p-2 mb-2 rounded-md"
+					onClick={tooglePanel}
+				>
+					Groups
+				</button>
+			</div>
 
-			{showContact && (
+			{showNewContactForm && (
 				<div className="flex flex-col gap-2 p-2 w-full mb-2 rounded-md bg-violet-800/80">
 					<input
 						placeholder="Enter contact number"
@@ -85,7 +97,7 @@ export default function AllContact() {
 				</div>
 			)}
 
-			<ol className="bg-violet-700/40 text-slate-300 w-full h-full rounded-md overflow-y-auto">
+			<ol className="bg-blue-700/40 text-slate-300 w-full h-full rounded-md overflow-y-auto">
 				{contacts &&
 					contacts.map((contact, index) => {
 						return <Contact contact={contact} key={index} />;
