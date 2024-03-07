@@ -15,7 +15,9 @@ export default function Groups() {
 
 	const [joinGroupId, setJoinGroupId] = useState("");
 
-	const [groups, setGroups] = useState();
+	const [ownedGroups, setOwnedGroups] = useState();
+
+	const [memberGroups, setMemberGroups] = useState();
 
 	function toogleShowNewGroupForm() {
 		setShowNewGroupForm(!showNewGroupForm);
@@ -64,15 +66,21 @@ export default function Groups() {
 
 	async function getGroups() {
 		try {
-			const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/contact/get-contacts`, {
+			const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/group/get-groups`, {
 				headers: { Authorization: localStorage.getItem("Token") },
 			});
+			setOwnedGroups(res.data.ownedGroups);
+			setMemberGroups(res.data.memberGroups);
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		getGroups();
+	}, []);
+
+	useEffect(() => {}, [ownedGroups, memberGroups]);
 
 	return (
 		<div className="h-full w-2/12 flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
@@ -133,9 +141,14 @@ export default function Groups() {
 			)}
 
 			<ol className="bg-blue-700/40 text-slate-300 w-full h-full rounded-md overflow-y-auto">
-				{groups &&
-					groups.map((contact, index) => {
-						return <Group contact={contact} key={index} />;
+				{ownedGroups &&
+					ownedGroups.map((group, index) => {
+						return <Group group={group} key={index} />;
+					})}
+
+				{memberGroups &&
+					memberGroups.map((group, index) => {
+						return <Group group={group} key={index} />;
 					})}
 			</ol>
 		</div>

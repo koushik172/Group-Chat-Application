@@ -9,4 +9,6 @@ groupRouter.post("/create-group", Verify_user, groupController.createGroup);
 
 groupRouter.post("/join-group", Verify_user, groupController.joinGroup);
 
+groupRouter.get("/get-groups", Verify_user, groupController.getGroups);
+
 export default groupRouter;

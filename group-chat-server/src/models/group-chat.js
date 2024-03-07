@@ -9,11 +9,15 @@ const GroupChat = sequelize.define("group-chats", {
 		allowNull: false,
 		primaryKey: true,
 	},
-	groupId: {
+	senderId: {
 		type: Sequelize.STRING,
 		allowNull: false,
 	},
-	senderId: {
+	senderName: {
+		type: Sequelize.STRING,
+		allowNull: false,
+	},
+	groupId: {
 		type: Sequelize.STRING,
 		allowNull: false,
 	},

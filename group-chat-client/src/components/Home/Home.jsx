@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ContactProvider } from "../Context/ContactContext";
 
 import AllContact from "./AllContact/AllContacts";
-import Chat from "./Chat";
+import ChatBox from "./ChatBox/ChatBox";
 
 export default function Home() {
 	const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function Home() {
 						<AllContact />
 
 						{/* CHATBOX */}
-						<Chat />
+						<ChatBox />
 					</div>
 				</div>
 			</div>

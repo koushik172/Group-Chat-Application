@@ -5,7 +5,7 @@ import axios from "axios";
 import { useContactContext } from "../../../Context/ContactContext";
 
 export default function Contact({ contact, index }) {
-	const { setCurrentChat } = useContactContext();
+	const { setCurrentChat, setChatBox } = useContactContext();
 
 	async function selectChat(e) {
 		let li = e.currentTarget;
@@ -14,6 +14,8 @@ export default function Contact({ contact, index }) {
 		selectedChat.user2Id = li.querySelectorAll("div")[0].getAttribute("name");
 		selectedChat.user2Name = li.querySelector('p[name="user2Name"]').textContent;
 		setCurrentChat(selectedChat);
+		localStorage.setItem("chatBox", "contacts")
+		setChatBox("contacts");
 	}
 
 	async function getMessage() {

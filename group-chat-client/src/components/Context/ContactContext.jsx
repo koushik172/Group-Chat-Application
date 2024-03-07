@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 // Define the context
 const ContactContext = createContext();
@@ -11,15 +11,20 @@ export const ContactProvider = ({ children }) => {
 		user2Name: "",
 	});
 
-	const [currentGroup, setCurrentGroup] = useState({
+	const [currentGroupChat, setCurrentGroupChat] = useState({
 		groupId: "",
 		groupName: "",
-		groupOwner: "",
 	});
 
 	const [panel, setPanel] = useState(localStorage.getItem("panel") || "contacts");
 
-	return <ContactContext.Provider value={{ currentChat, setCurrentChat, panel, setPanel }}>{children}</ContactContext.Provider>;
+	const [chatBox, setChatBox] = useState(localStorage.getItem("chatBox") || "contacts");
+
+	return (
+		<ContactContext.Provider value={{ currentChat, setCurrentChat, panel, currentGroupChat, setCurrentGroupChat, setPanel, chatBox, setChatBox }}>
+			{children}
+		</ContactContext.Provider>
+	);
 };
 
 export const useContactContext = () => useContext(ContactContext);

@@ -11,6 +11,7 @@ import userRouter from "./routes/user.js";
 import contactRouter from "./routes/contact.js";
 import chatRouter from "./routes/chat.js";
 import groupRouter from "./routes/group.js";
+import groupChatRouter from "./routes/group-chat.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/user", userRouter);
 app.use("/contact", contactRouter);
 app.use("/chat", chatRouter);
 app.use("/group", groupRouter);
+app.use("/group-chat", groupChatRouter);
 
 await sequelize
 	.sync()

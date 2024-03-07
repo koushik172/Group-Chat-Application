@@ -1,10 +1,49 @@
 import Group from "../models/group.js";
+import GroupMember from "../models/group-members.js";
 
 export const createGroup = async (req, res) => {
-	res.send("Create group");
-	console.log(req.body);
+	try {
+		let result = await Group.create({ groupName: req.body.groupName, ownerId: req.user.id });
+		console.log(result);
+		res.status(300).send("Group Created Sucessfully");
+	} catch (error) {
+		console.log(error);
+		res.status(200).send("Unsucessfull");
+	}
 };
 
 export const joinGroup = async (req, res) => {
-	res.send("join group");
+	console.log(req.body);
+	try {
+		let group = await Group.findOne({ where: { id: req.body.groupId } });
+
+		if (!group) {
+			res.status(404).send("No such group.");
+			return;
+		}
+
+		if (parseInt(req.user.id) === parseInt(group.ownerId)) {
+			res.status(400).send("Not Allowed");
+			return;
+		}
+
+		let result = await GroupMember.create({ groupId: group.id, groupName: group.groupName, userId: req.user.id });
+		console.log(result);
+
+		res.status(200).send("Group Joined.");
+	} catch (error) {
+		console.log(error);
+		res.status(400).send("Request Unsucessfull.");
+	}
+};
+
+export const getGroups = async (req, res) => {
+	try {
+		let ownedGroups = await Group.findAll({ where: { ownerId: req.user.id }, attributes: [["id", "groupId"], "groupName"] });
+		let memberGroups = await GroupMember.findAll({ where: { userId: req.user.id }, attributes: ["groupId", "groupName"] });
+		res.send({ ownedGroups: ownedGroups, memberGroups: memberGroups });
+	} catch (error) {
+		console.log(error);
+		res.send("Error");
+	}
 };
