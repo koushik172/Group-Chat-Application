@@ -15,7 +15,6 @@ export default function Groups() {
 
 	const [joinGroupId, setJoinGroupId] = useState("");
 
-	const [ownedGroups, setOwnedGroups] = useState();
 
 	const [memberGroups, setMemberGroups] = useState();
 
@@ -69,7 +68,6 @@ export default function Groups() {
 			const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/group/get-groups`, {
 				headers: { Authorization: localStorage.getItem("Token") },
 			});
-			setOwnedGroups(res.data.ownedGroups);
 			setMemberGroups(res.data.memberGroups);
 		} catch (error) {
 			console.log(error);
@@ -80,7 +78,7 @@ export default function Groups() {
 		getGroups();
 	}, []);
 
-	useEffect(() => {}, [ownedGroups, memberGroups]);
+	useEffect(() => {}, [memberGroups]);
 
 	return (
 		<div className="h-full w-2/12 flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
@@ -141,11 +139,6 @@ export default function Groups() {
 			)}
 
 			<ol className="bg-blue-700/40 text-slate-300 w-full h-full rounded-md overflow-y-auto">
-				{ownedGroups &&
-					ownedGroups.map((group, index) => {
-						return <Group group={group} key={index} />;
-					})}
-
 				{memberGroups &&
 					memberGroups.map((group, index) => {
 						return <Group group={group} key={index} />;

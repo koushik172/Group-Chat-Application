@@ -50,7 +50,7 @@ export default function Group({ group, index }) {
 	useEffect(() => {
 		setInterval(() => {
 			getMessage();
-		}, 5000);
+		}, 10000);
 	}, []);
 
 	return (

@@ -3,8 +3,16 @@ import GroupMember from "../models/group-members.js";
 
 export const createGroup = async (req, res) => {
 	try {
-		let result = await Group.create({ groupName: req.body.groupName, ownerId: req.user.id });
-		console.log(result);
+		let group = await Group.create({ groupName: req.body.groupName, ownerId: req.user.id });
+		await GroupMember.create({
+			groupId: group.id,
+			groupName: group.groupName,
+			userId: req.user.id,
+			userName: req.user.name,
+			userPhone: req.user.phone,
+			memberType: "owner",
+		});
+		console.log(group);
 		res.status(300).send("Group Created Sucessfully");
 	} catch (error) {
 		console.log(error);
@@ -27,7 +35,13 @@ export const joinGroup = async (req, res) => {
 			return;
 		}
 
-		let result = await GroupMember.create({ groupId: group.id, groupName: group.groupName, userId: req.user.id });
+		let result = await GroupMember.create({
+			groupId: group.id,
+			groupName: group.groupName,
+			userId: req.user.id,
+			userName: req.user.name,
+			userPhone: req.user.phone,
+		});
 		console.log(result);
 
 		res.status(200).send("Group Joined.");
@@ -39,9 +53,8 @@ export const joinGroup = async (req, res) => {
 
 export const getGroups = async (req, res) => {
 	try {
-		let ownedGroups = await Group.findAll({ where: { ownerId: req.user.id }, attributes: [["id", "groupId"], "groupName"] });
 		let memberGroups = await GroupMember.findAll({ where: { userId: req.user.id }, attributes: ["groupId", "groupName"] });
-		res.send({ ownedGroups: ownedGroups, memberGroups: memberGroups });
+		res.send({ memberGroups: memberGroups });
 	} catch (error) {
 		console.log(error);
 		res.send("Error");

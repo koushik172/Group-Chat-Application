@@ -23,6 +23,19 @@ const GroupMember = sequelize.define(
 			type: Sequelize.STRING,
 			allowNull: false,
 		},
+		userName: {
+			type: Sequelize.STRING,
+			allowNull: false,
+		},
+		userPhone: {
+			type: Sequelize.STRING,
+			allowNull: false,
+		},
+		memberType: {
+			type: Sequelize.STRING,
+			allowNull: false,
+			defaultValue: "member",
+		},
 	},
 	{
 		indexes: [

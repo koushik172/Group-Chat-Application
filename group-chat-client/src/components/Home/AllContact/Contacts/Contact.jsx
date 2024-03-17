@@ -51,7 +51,7 @@ export default function Contact({ contact, index }) {
 	useEffect(() => {
 		setInterval(() => {
 			getMessage();
-		}, 5000);
+		}, 10000);
 	}, []);
 
 	return (
