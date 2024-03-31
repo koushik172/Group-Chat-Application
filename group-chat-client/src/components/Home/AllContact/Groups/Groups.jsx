@@ -15,7 +15,6 @@ export default function Groups() {
 
 	const [joinGroupId, setJoinGroupId] = useState("");
 
-
 	const [memberGroups, setMemberGroups] = useState();
 
 	function toogleShowNewGroupForm() {
@@ -58,6 +57,7 @@ export default function Groups() {
 				}
 			);
 			alert(res.data);
+			getGroups();
 		} catch (error) {
 			console.log(error);
 		}

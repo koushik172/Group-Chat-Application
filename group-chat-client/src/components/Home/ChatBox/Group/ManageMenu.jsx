@@ -131,17 +131,31 @@ export default function ManageMenu() {
 		}
 	}
 
+	async function leaveGroup() {
+		if (!window.confirm("Are you sure? You will no longer have access to the chats.")) return;
+		try {
+			let result = await axios.post(
+				`http://${import.meta.env.VITE_SERVER_IP}/manage-group/leave-group`,
+				{ groupId: currentGroupChat.groupId },
+				{
+					headers: { Authorization: localStorage.getItem("Token") },
+				}
+			);
+			localStorage.removeItem("group-" + 1);
+			location.reload();
+		} catch (error) {
+			console.log(error);
+			alert("Error");
+		}
+	}
+
 	useEffect(() => {
 		if (currentGroupChat.groupId) getGroupMembers();
 	}, [currentGroupChat.groupId]);
 
-	useEffect(() => {
-		console.log(groupMembers);
-	}, [groupMembers]);
+	useEffect(() => {}, [groupMembers]);
 
-	useEffect(() => {
-		console.log(searchUserData);
-	}, [searchUserData]);
+	useEffect(() => {}, [searchUserData]);
 
 	return (
 		<>
@@ -209,6 +223,14 @@ export default function ManageMenu() {
 								})}
 							</ol>
 						)}
+					</div>
+
+					<hr className="my-2 mx-8" />
+
+					<div className="flex justify-center items-center pt-2">
+						<button className="bg-red-500/80 rounded-md text-white px-2 py-1" onClick={leaveGroup}>
+							Leave Group
+						</button>
 					</div>
 				</div>
 			)}

@@ -88,8 +88,31 @@ export default function GroupChat() {
 										.reverse()
 										.map((item, index) => {
 											return (
-												<li className={`${Username !== item.senderName ? "text-left" : "text-right"}`} key={index}>
-													{item.message}
+												<li
+													className={`flex ${Username !== item.senderName ? "justify-start " : "justify-end "}`}
+													key={index}
+												>
+													<div>
+														{/* USER NAME TAG */}
+														<div className={`flex ${Username !== item.senderName ? "justify-start" : "justify-end"}`}>
+															<p
+																className={` mt-2 px-2 rounded-t-md  ${
+																	Username !== item.senderName ? " bg-blue-700/40 " : " bg-cyan-600/60"
+																}`}
+															>
+																{item.senderName}
+															</p>
+														</div>
+
+														{/* MESSAGE */}
+														<p
+															className={` mb-2 px-2 pb-1 rounded-b-md w-fit ${
+																Username !== item.senderName ? " bg-blue-800/60" : " bg-cyan-700/60"
+															}`}
+														>
+															{item.message}
+														</p>
+													</div>
 												</li>
 											);
 										})}

@@ -60,6 +60,7 @@ export const removeMember = async (req, res) => {
 
 	if (!currentUserAccess) {
 		res.status(404).send("Invalid Request");
+		return;
 	}
 
 	try {
@@ -91,6 +92,7 @@ export const promoteToAdmin = async (req, res) => {
 
 	if (!currentUserAccess) {
 		res.status(404).send("Invalid Request");
+		return;
 	}
 
 	try {
@@ -128,7 +130,7 @@ export const demoteFromAdmin = async (req, res) => {
 			if (!member) {
 				res.status(404).send("Invalid Request");
 			} else {
-				member.memberType = "member"; 
+				member.memberType = "member";
 				await member.save();
 			}
 			res.status(200).send("Demoted");
@@ -137,5 +139,43 @@ export const demoteFromAdmin = async (req, res) => {
 		}
 	} catch (error) {
 		res.status(500).send("Internal Error");
+	}
+};
+
+export const leaveGroup = async (req, res) => {
+	let currentUser = await GroupMember.findOne({ where: { [Op.and]: [{ userId: req.user.id }, { groupId: req.body.groupId }] } });
+
+	if (!currentUser) {
+		res.status(404).send("Invalid Request");
+		return;
+	}
+
+	if (currentUser.memberType === "owner") {
+		let newOwner = await GroupMember.findOne({
+			where: { groupId: req.body.groupId },
+			order: [
+				["memberType", "ASC"],
+				["updatedAt", "ASC"],
+			],
+		});
+
+		let group = await Group.findOne({ where: { id: req.body.groupId } });
+
+		if (!newOwner) {
+			group.destroy();
+			res.status(201).send("Group Destroyed");
+			return;
+		}
+
+		newOwner.memberType = "owner";
+		group.ownerId = newOwner.userId;
+
+		await newOwner.save();
+		await group.save();
+		await currentUser.destroy();
+		res.status(201).send("Group Left");
+	} else {
+		await currentUser.destroy();
+		res.status(201).send("Group Left");
 	}
 };

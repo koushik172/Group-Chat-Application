@@ -17,4 +17,6 @@ manageGroupRouter.post("/promote-member", Verify_user, manageGroupController.pro
 
 manageGroupRouter.post("/demote-member", Verify_user, manageGroupController.demoteFromAdmin);
 
+manageGroupRouter.post("/leave-group", Verify_user, manageGroupController.leaveGroup);
+
 export default manageGroupRouter;

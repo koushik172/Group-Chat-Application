@@ -70,8 +70,18 @@ export default function ContactChat() {
 									.reverse()
 									.map((item, index) => {
 										return (
-											<li className={`${currentChat.user2Id === item.senderId ? "text-left" : "text-right"}`} key={index}>
-												{item.message}
+											<li
+												className={`flex ${currentChat.user2Id === item.senderId ? "justify-start " : "justify-end "}`}
+												key={index}
+											>
+												{/* MESSAGE */}
+												<p
+													className={`m-1 px-2 py-1 rounded-md w-fit ${
+														currentChat.user2Id === item.senderId ? " bg-blue-800/60" : " bg-cyan-700/60"
+													}`}
+												>
+													{item.message}
+												</p>
 											</li>
 										);
 									})}
