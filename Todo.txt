@@ -1,5 +1,0 @@
-1) Add group chat features  
-
-2) Add crousel panel for all groups 
-
-3) Add routes and controllers for groups api.
