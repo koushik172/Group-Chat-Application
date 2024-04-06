@@ -20,6 +20,7 @@ export default function Login() {
 		try {
 			let res = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}/user/login`, formData);
 			localStorage.setItem("Username", res.data.username);
+			localStorage.setItem("UserId", res.data.id);
 			localStorage.setItem("Token", res.data.token);
 			if (res.status === 200) navigate("/");
 		} catch (error) {
@@ -27,7 +28,7 @@ export default function Login() {
 		}
 	}
 
-	useEffect(() => {	
+	useEffect(() => {
 		document.title = "Chat app - Login";
 	}, []);
 

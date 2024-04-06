@@ -14,7 +14,7 @@ export default function Contact({ contact, index }) {
 		selectedChat.user2Id = li.querySelectorAll("div")[0].getAttribute("name");
 		selectedChat.user2Name = li.querySelector('p[name="user2Name"]').textContent;
 		setCurrentChat(selectedChat);
-		localStorage.setItem("chatBox", "contacts")
+		localStorage.setItem("chatBox", "contacts");
 		setChatBox("contacts");
 	}
 
@@ -49,9 +49,7 @@ export default function Contact({ contact, index }) {
 	}
 
 	useEffect(() => {
-		setInterval(() => {
-			getMessage();
-		}, 10000);
+		getMessage();
 	}, []);
 
 	return (

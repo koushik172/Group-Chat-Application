@@ -2,17 +2,17 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Import your page components
-import SignupPage from "../pages/SignupPage";
-import LoginPage from "../pages/LoginPage";
-import HomePage from "../pages/HomePage";
+import SignUpPage from "../pages/SignUpPage.jsx";
+import LoginPage from "../pages/LoginPage.jsx";
+import HomePage from "../pages/HomePage.jsx";
 
 function AppRouter() {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/signup" element={<SignupPage />} />
-				<Route path="/login" element={<LoginPage />} />
 				<Route path="/" element={<HomePage />} />
+				<Route path="/signup" element={<SignUpPage />} />
+				<Route path="/login" element={<LoginPage />} />
 			</Routes>
 		</Router>
 	);

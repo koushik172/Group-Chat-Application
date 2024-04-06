@@ -7,7 +7,7 @@ import { useContactContext } from "../../../Context/ContactContext";
 import ManageMenu from "./ManageMenu";
 
 export default function GroupChat() {
-	const { currentGroupChat } = useContactContext();
+	const { currentGroupChat, socket } = useContactContext();
 
 	const [message, setMessage] = useState("");
 
@@ -32,16 +32,10 @@ export default function GroupChat() {
 			return;
 		}
 
-		try {
-			await axios.post(
-				`http://${import.meta.env.VITE_SERVER_IP}/group-chat/send-message`,
-				{ message: message, groupId: currentGroupChat.groupId },
-				{
-					headers: { Authorization: localStorage.getItem("Token") },
-				}
-			);
-		} catch (error) {
-			console.log(error);
+		console.log(socket.rooms);
+
+		if (socket) {
+			socket.emit("sendGroupMessage", { groupId: currentGroupChat.groupId, message: message });
 		}
 
 		setMessage("");

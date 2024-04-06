@@ -5,7 +5,7 @@ import axios from "axios";
 import { useContactContext } from "../../../Context/ContactContext";
 
 export default function ContactChat() {
-	const { currentChat } = useContactContext();
+	const { currentChat, socket } = useContactContext();
 
 	const [message, setMessage] = useState("");
 
@@ -21,16 +21,8 @@ export default function ContactChat() {
 			return;
 		}
 
-		try {
-			await axios.post(
-				`http://${import.meta.env.VITE_SERVER_IP}/chat/send-message`,
-				{ message: message, receiverId: currentChat.user2Id, contactId: currentChat.contactId },
-				{
-					headers: { Authorization: localStorage.getItem("Token") },
-				}
-			);
-		} catch (error) {
-			console.log(error);
+		if (socket) {
+			socket.emit("send-message", { chatData: currentChat, message: message });
 		}
 
 		setMessage("");
@@ -71,13 +63,17 @@ export default function ContactChat() {
 									.map((item, index) => {
 										return (
 											<li
-												className={`flex ${currentChat.user2Id === item.senderId ? "justify-start " : "justify-end "}`}
+												className={`flex ${
+													parseInt(currentChat.user2Id) === parseInt(item.senderId) ? "justify-start " : "justify-end "
+												}`}
 												key={index}
 											>
 												{/* MESSAGE */}
 												<p
 													className={`m-1 px-2 py-1 rounded-md w-fit ${
-														currentChat.user2Id === item.senderId ? " bg-blue-800/60" : " bg-cyan-700/60"
+														parseInt(currentChat.user2Id) === parseInt(item.senderId)
+															? " bg-blue-800/60"
+															: " bg-cyan-700/60"
 													}`}
 												>
 													{item.message}

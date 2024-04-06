@@ -1,7 +1,10 @@
+import http from "http";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
+
+import { startChatIoServer } from "./sockets/socket.js";
 import sequelize from "./utils/database.js";
 
 import Contact from "./models/contact.js";
@@ -15,6 +18,7 @@ import groupChatRouter from "./routes/group-chat.js";
 import manageGroupRouter from "./routes/manage-group.js";
 
 const app = express();
+const httpServer = http.createServer(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,8 +38,9 @@ app.use("/manage-group", manageGroupRouter);
 await sequelize
 	.sync()
 	.then(() => {
-		app.listen(process.env.PORT, () => {
+		httpServer.listen(process.env.PORT, () => {
 			console.log(`http://localhost:${process.env.PORT}`);
+			startChatIoServer(httpServer);
 		});
 	})
 	.catch((err) => {

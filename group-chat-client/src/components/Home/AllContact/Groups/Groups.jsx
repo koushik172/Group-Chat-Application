@@ -5,7 +5,7 @@ import { useContactContext } from "../../../Context/ContactContext";
 import Group from "./Group";
 
 export default function Groups() {
-	const { setPanel } = useContactContext();
+	const { setPanel, socket } = useContactContext();
 
 	const [showNewGroupForm, setShowNewGroupForm] = useState(false);
 
@@ -68,6 +68,7 @@ export default function Groups() {
 			const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/group/get-groups`, {
 				headers: { Authorization: localStorage.getItem("Token") },
 			});
+			console.log(res.data.memberGroups);
 			setMemberGroups(res.data.memberGroups);
 		} catch (error) {
 			console.log(error);
@@ -78,10 +79,37 @@ export default function Groups() {
 		getGroups();
 	}, []);
 
-	useEffect(() => {}, [memberGroups]);
+	useEffect(() => {
+		if (socket) {
+			socket.on("groupMessage", (message) => {
+				try {
+					let currentMessages = JSON.parse(localStorage.getItem("group-" + message.groupId));
+
+					if (currentMessages) {
+						currentMessages.unshift(message);
+						if (currentMessages.length > 20) {
+							currentMessages.pop();
+						}
+
+						localStorage.setItem("group-" + message.groupId, JSON.stringify(currentMessages));
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			});
+		}
+	}, [socket]);
+
+	useEffect(() => {
+		memberGroups &&
+			memberGroups.forEach((member, index) => {
+				console.log(member);
+				socket.emit("joinGroup", { groupId: member.groupId });
+			});
+	}, [memberGroups]);
 
 	return (
-		<div className="h-full w-2/12 flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
+		<div className="h-full  flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
 			<div className="w-full flex gap-2">
 				<span className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-md">
 					Groups{" "}

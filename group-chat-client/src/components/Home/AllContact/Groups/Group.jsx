@@ -5,7 +5,7 @@ import axios from "axios";
 import { useContactContext } from "../../../Context/ContactContext";
 
 export default function Group({ group, index }) {
-	const { setCurrentGroupChat, setChatBox } = useContactContext();
+	const { setCurrentGroupChat, setChatBox, socket } = useContactContext();
 
 	async function selectChat(e) {
 		let li = e.currentTarget;
@@ -20,21 +20,17 @@ export default function Group({ group, index }) {
 	async function getMessage() {
 		try {
 			let currentMessages = JSON.parse(localStorage.getItem("group-" + group.groupId));
-
 			if (currentMessages) {
 				let groupChatId = currentMessages.length > 0 ? currentMessages[0].id : 0;
-
 				const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/group-chat/get-message/${group.groupId}/${groupChatId}`, {
 					headers: { Authorization: localStorage.getItem("Token") },
 				});
-
 				res.data.forEach((element) => {
 					currentMessages.unshift(element);
 					if (currentMessages.length > 20) {
 						currentMessages.pop();
 					}
 				});
-
 				localStorage.setItem("group-" + group.groupId, JSON.stringify(currentMessages));
 			} else {
 				const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/group-chat/get-message/${group.groupId}/0`, {
@@ -48,9 +44,7 @@ export default function Group({ group, index }) {
 	}
 
 	useEffect(() => {
-		setInterval(() => {
-			getMessage();
-		}, 10000);
+		getMessage();
 	}, []);
 
 	return (

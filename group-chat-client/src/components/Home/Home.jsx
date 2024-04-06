@@ -11,14 +11,14 @@ export default function Home() {
 
 	function logout() {
 		localStorage.clear();
-		location.reload();
+		navigate("/login");
 	}
 
 	useEffect(() => {
 		if (!localStorage.getItem("Token")) {
 			navigate("/login");
 		}
-		document.title = "Chat App - Home"
+		document.title = "Chat App - Home";
 	}, []);
 
 	return (
