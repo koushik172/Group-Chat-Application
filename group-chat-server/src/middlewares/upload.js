@@ -14,12 +14,12 @@ const acceptedFileTypes = {
 const sanitizeFile = (file, cb) => {
 	const isAllowedMimeType = acceptedFileTypes[file.mimetype];
 	if (isAllowedMimeType) {
-		console.log(file, acceptedFileTypes[file.mimetype]);
-		if (file.size <= acceptedFileTypes[file.mimetype]) {
-			return cb(null, true);
-		} else {
-			cb("Error: File size exceeds limit!");
-		}
+		// if (file.size <= acceptedFileTypes[file.mimetype]) {
+		// 	return cb(null, true);
+		// } else {
+		// 	cb("Error: File size exceeds limit!");
+		// }
+		return cb(null, true);
 	} else {
 		cb("Error: File type not allowed!");
 	}
@@ -34,9 +34,30 @@ const storage = multerS3({
 		cb(null, { fieldname: file.fieldname });
 	},
 	key: (req, file, cb) => {
-		const fileName = Date.now() + "_" + file.fieldname + "_" + file.originalname;
+		let folder = "";
+		switch (file.mimetype) {
+			case "text/plain":
+				folder = "text/";
+				break;
+			case "text/xml":
+				folder = "text/";
+				break;
+			case "image/png":
+				folder = "images/";
+				break;
+			case "video/mp4":
+				folder = "videos/";
+				break;
+			case "audio/mp3":
+				folder = "audios/";
+				break;
+			default:
+				folder = "others/";
+		}
+		const fileName = folder + Date.now() + "_" + file.fieldname + "_" + file.originalname;
 		cb(null, fileName);
 	},
+	limits: { fileSize: 20 * 1024 * 1024 },
 });
 
 // Create the multer instance

@@ -26,6 +26,11 @@ export default function AttachFile() {
 
 			const file = event.target.files[0];
 
+			if (file.size > 20 * 1024 * 1024) {
+				alert("File size exceeded. Limit 20MB");
+				return;
+			}
+
 			if (acceptedFileTypes.includes(file.type)) {
 				try {
 					let response = await axios.post(
