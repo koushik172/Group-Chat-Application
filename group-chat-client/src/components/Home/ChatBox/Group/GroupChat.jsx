@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import axios from "axios";
-
 import { useContactContext } from "../../../Context/ContactContext";
+import GroupMessage from "./GroupMessage";
 import AttachFile from "../Common/AttachFile";
 import ManageMenu from "./ManageMenu";
 
@@ -80,34 +79,7 @@ export default function GroupChat() {
 										.slice()
 										.reverse()
 										.map((item, index) => {
-											return (
-												<li
-													className={`flex ${Username !== item.senderName ? "justify-start " : "justify-end "}`}
-													key={index}
-												>
-													<div>
-														{/* USER NAME TAG */}
-														<div className={`flex ${Username !== item.senderName ? "justify-start" : "justify-end"}`}>
-															<p
-																className={` mt-2 px-2 rounded-t-md  ${
-																	Username !== item.senderName ? " bg-blue-700/40 " : " bg-cyan-600/60"
-																}`}
-															>
-																{item.senderName}
-															</p>
-														</div>
-
-														{/* MESSAGE */}
-														<p
-															className={` mb-2 px-2 pb-1 rounded-b-md w-fit ${
-																Username !== item.senderName ? " bg-blue-800/60" : " bg-cyan-700/60"
-															}`}
-														>
-															{item.message}
-														</p>
-													</div>
-												</li>
-											);
+											return <GroupMessage key={index} item={item} index={index} Username={Username} />;
 										})}
 							</div>
 						) : (

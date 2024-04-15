@@ -100,7 +100,7 @@ export default function Contacts() {
 					className="bg-violet-700/80 text-slate-200 font-bold text-lg  flex justify-between items-center p-2 mb-2 rounded-e-md"
 					onClick={tooglePanel}
 				>
-					<i class="fa-solid fa-user-group px-2"></i>
+					<i className="fa-solid fa-user-group px-2"></i>
 				</button>
 			</div>
 

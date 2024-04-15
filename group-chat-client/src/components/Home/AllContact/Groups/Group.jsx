@@ -7,6 +7,8 @@ import { useContactContext } from "../../../Context/ContactContext";
 export default function Group({ group, index }) {
 	const { setCurrentGroupChat, setChatBox, socket } = useContactContext();
 
+	const groupData = JSON.parse(localStorage.getItem("group-" + group.groupId))[0];
+
 	async function selectChat(e) {
 		let li = e.currentTarget;
 		const currentGroup = { groupId: "", groupName: "" };
@@ -43,6 +45,16 @@ export default function Group({ group, index }) {
 		}
 	}
 
+	function getLastText() {
+		if (groupData === undefined) {
+			return "No Chat";
+		} else if (groupData.type === "message") {
+			return groupData.message;
+		} else {
+			return groupData.type;
+		}
+	}
+
 	useEffect(() => {
 		getMessage();
 	}, []);
@@ -58,7 +70,7 @@ export default function Group({ group, index }) {
 					</div>
 
 					<div className="w-full flex whitespace-pre text-sm font-semibold">
-						Last Text: <p className="font-thin">Lorem, ipsum dolor sit por vas</p>
+						Last Text: <p className="font-thin">{getLastText()}</p>
 					</div>
 				</li>
 			}

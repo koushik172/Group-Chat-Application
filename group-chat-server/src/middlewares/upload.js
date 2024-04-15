@@ -7,8 +7,10 @@ const acceptedFileTypes = {
 	"text/plain": 1024 * 1024 * 2, // 2MB
 	"text/xml": 1024 * 1024 * 2, // 2MB
 	"image/png": 1024 * 1024 * 5, // 5MB
+	"image/gif": 1024 * 1024 * 5, // 5MB
 	"video/mp4": 1024 * 1024 * 50, // 50MB
 	"audio/mp3": 1024 * 1024 * 10, // 10MB
+	"audio/mpeg": 1024 * 1024 * 10, // 10MB
 };
 
 const sanitizeFile = (file, cb) => {
@@ -45,10 +47,19 @@ const storage = multerS3({
 			case "image/png":
 				folder = "images/";
 				break;
+			case "image/gif":
+				folder = "images/";
+				break;
+			case "image/jpg":
+				folder = "images/";
+				break;
 			case "video/mp4":
 				folder = "videos/";
 				break;
 			case "audio/mp3":
+				folder = "audios/";
+				break;
+			case "audio/mpeg":
 				folder = "audios/";
 				break;
 			default:

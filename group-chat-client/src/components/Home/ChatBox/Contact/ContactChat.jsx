@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import AttachFile from "../Common/AttachFile";
-
 import { useContactContext } from "../../../Context/ContactContext";
+import ContactMessage from "./ContactMessage";
+import AttachFile from "../Common/AttachFile";
 
 export default function ContactChat() {
 	const { currentChat, socket } = useContactContext();
@@ -61,25 +61,7 @@ export default function ContactChat() {
 									.slice()
 									.reverse()
 									.map((item, index) => {
-										return (
-											<li
-												className={`flex ${
-													parseInt(currentChat.user2Id) === parseInt(item.senderId) ? "justify-start " : "justify-end "
-												}`}
-												key={index}
-											>
-												{/* MESSAGE */}
-												<p
-													className={`m-1 px-2 py-1 rounded-md w-fit ${
-														parseInt(currentChat.user2Id) === parseInt(item.senderId)
-															? " bg-blue-800/60"
-															: " bg-cyan-700/60"
-													}`}
-												>
-													{item.message}
-												</p>
-											</li>
-										);
+										return <ContactMessage key={index} item={item} index={index} currentChat={currentChat} />;
 									})}
 						</div>
 					) : (

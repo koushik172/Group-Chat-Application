@@ -110,7 +110,7 @@ export default function Groups() {
 		<div className="h-full  flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
 			<div className="w-full flex ">
 				<span className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-s-md">
-					<i class="fa-solid fa-user-group px-2"></i>
+					<i className="fa-solid fa-user-group px-2"></i>
 					<div className="select-none">
 						<a onClick={toogleShowNewGroupForm} className="cursor-pointer px-2 text-md items-center rounded-md">
 							➕
@@ -124,14 +124,14 @@ export default function Groups() {
 					className="bg-violet-700/80 text-slate-200 font-bold text-lg  flex justify-between items-center p-2 mb-2 rounded-e-md"
 					onClick={tooglePanel}
 				>
-					<i class="fa-solid fa-user  px-2"></i>
+					<i className="fa-solid fa-user  px-2"></i>
 				</button>
 			</div>
 
 			{showNewGroupForm && (
 				<div className="flex flex-col gap-2 p-2 w-full mb-2 rounded-md bg-violet-800/80">
 					<div htmlFor="" className="text-slate-200 text-center font-semibold text-xl">
-						Create Group 
+						Create Group
 					</div>
 					<input
 						placeholder="Enter group name"
