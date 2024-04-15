@@ -89,18 +89,18 @@ export default function Contacts() {
 
 	return (
 		<div className="h-full flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
-			<div className="w-full flex gap-2">
-				<p className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-md">
-					Contacts{" "}
+			<div className="w-full flex">
+				<p className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-s-md">
+					<i className="fa-solid fa-user ps-2"></i>
 					<a onClick={toogleShowNewContactForm} className="cursor-pointer px-2 text-md select-none items-center rounded-md">
 						➕
 					</a>
 				</p>
 				<button
-					className="bg-violet-700/80 text-slate-200 font-bold text-lg  flex justify-between items-center p-2 mb-2 rounded-md"
+					className="bg-violet-700/80 text-slate-200 font-bold text-lg  flex justify-between items-center p-2 mb-2 rounded-e-md"
 					onClick={tooglePanel}
 				>
-					Groups
+					<i class="fa-solid fa-user-group px-2"></i>
 				</button>
 			</div>
 

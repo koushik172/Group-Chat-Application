@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { useContactContext } from "../../../Context/ContactContext";
-
+import AttachFile from "../Common/AttachFile";
 import ManageMenu from "./ManageMenu";
 
 export default function GroupChat() {
@@ -31,11 +31,10 @@ export default function GroupChat() {
 			alert("Select a chat!");
 			return;
 		}
-
 		console.log(socket.rooms);
 
 		if (socket) {
-			socket.emit("sendGroupMessage", { groupId: currentGroupChat.groupId, message: message });
+			socket.emit("sendGroupMessage", { groupId: currentGroupChat.groupId, message: message, type: "message" });
 		}
 
 		setMessage("");
@@ -122,6 +121,7 @@ export default function GroupChat() {
 				{/* Group Chat Box */}
 				<div className="bg-violet-700/40 w-full p-2 gap-2 flex rounded-md">
 					<input name="" className="rounded-md w-full text-slate-800/80 px-2" value={message} onChange={handleMessageChange}></input>
+					<AttachFile />
 					<button
 						className={` px-4 py-1 rounded-md text-slate-200 font-semibold flex ${!message.length ? "bg-sky-900/80" : "bg-sky-500/80"}`}
 						disabled={!message.length}

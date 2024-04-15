@@ -3,7 +3,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-
 import { startChatIoServer } from "./sockets/socket.js";
 import sequelize from "./utils/database.js";
 
@@ -16,6 +15,7 @@ import chatRouter from "./routes/chat.js";
 import groupRouter from "./routes/group.js";
 import groupChatRouter from "./routes/group-chat.js";
 import manageGroupRouter from "./routes/manage-group.js";
+import uploadRouter from "./routes/upload.js";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -34,6 +34,7 @@ app.use("/chat", chatRouter);
 app.use("/group", groupRouter);
 app.use("/group-chat", groupChatRouter);
 app.use("/manage-group", manageGroupRouter);
+app.use(uploadRouter);
 
 await sequelize
 	.sync()

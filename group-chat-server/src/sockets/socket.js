@@ -1,10 +1,8 @@
 import { Server } from "socket.io";
-import { instrument } from "@socket.io/admin-ui";
 
 import jwt from "jsonwebtoken";
 
 import User from "../models/user.js";
-import Group from "../models/group.js";
 import Chat from "../models/chat.js";
 import GroupChat from "../models/group-chat.js";
 
@@ -20,10 +18,6 @@ export const startChatIoServer = (httpServer) => {
 			origin: "*",
 			methods: ["GET", "POST"],
 		},
-	});
-
-	instrument(io, {
-		auth: false,
 	});
 
 	io.use(async (socket, next) => {
@@ -49,11 +43,12 @@ export const startChatIoServer = (httpServer) => {
 		console.log(`Client Connected: ${socket.id}`);
 
 		// CONNECTION FOR PERSONAL CHATS
-		socket.on("send-message", async ({ chatData, message }) => {
+		socket.on("send-message", async ({ chatData, message, type }) => {
 			try {
 				let savedMessage = await Chat.create({
 					senderId: socket.user.id,
 					receiverId: chatData.user2Id,
+					type: type,
 					message: message,
 					contactId: chatData.contactId,
 				});
@@ -89,12 +84,13 @@ export const startChatIoServer = (httpServer) => {
 			console.log(`User ${socket.user.id} joined group ${groupId}`);
 		});
 
-		socket.on("sendGroupMessage", async ({ groupId, message }) => {
+		socket.on("sendGroupMessage", async ({ groupId, message, type }) => {
 			try {
 				let savedMessage = await GroupChat.create({
 					senderId: socket.user.id,
 					senderName: socket.user.name,
 					groupId: groupId,
+					type: type,
 					message: message,
 				});
 
@@ -103,7 +99,7 @@ export const startChatIoServer = (httpServer) => {
 				console.log(error);
 			}
 		});
-
+		
 		socket.on("disconnect", () => {
 			if (userGroups.has(socket.user.id)) {
 				let groupsToLeave = userGroups.get(socket.user.id);

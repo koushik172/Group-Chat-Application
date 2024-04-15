@@ -21,6 +21,10 @@ const GroupChat = sequelize.define("group-chats", {
 		type: Sequelize.STRING,
 		allowNull: false,
 	},
+	type: {
+		type: Sequelize.STRING,
+		allowNull: false,
+	},
 	message: {
 		type: Sequelize.STRING,
 		allowNull: false,

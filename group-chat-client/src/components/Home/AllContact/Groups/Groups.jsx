@@ -68,7 +68,6 @@ export default function Groups() {
 			const res = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}/group/get-groups`, {
 				headers: { Authorization: localStorage.getItem("Token") },
 			});
-			console.log(res.data.memberGroups);
 			setMemberGroups(res.data.memberGroups);
 		} catch (error) {
 			console.log(error);
@@ -103,16 +102,15 @@ export default function Groups() {
 	useEffect(() => {
 		memberGroups &&
 			memberGroups.forEach((member, index) => {
-				console.log(member);
 				socket.emit("joinGroup", { groupId: member.groupId });
 			});
 	}, [memberGroups]);
 
 	return (
 		<div className="h-full  flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
-			<div className="w-full flex gap-2">
-				<span className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-md">
-					Groups{" "}
+			<div className="w-full flex ">
+				<span className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-s-md">
+					<i class="fa-solid fa-user-group px-2"></i>
 					<div className="select-none">
 						<a onClick={toogleShowNewGroupForm} className="cursor-pointer px-2 text-md items-center rounded-md">
 							➕
@@ -123,17 +121,17 @@ export default function Groups() {
 					</div>
 				</span>
 				<button
-					className="bg-violet-700/80 text-slate-200 font-bold text-lg  flex justify-between items-center p-2 mb-2 rounded-md"
+					className="bg-violet-700/80 text-slate-200 font-bold text-lg  flex justify-between items-center p-2 mb-2 rounded-e-md"
 					onClick={tooglePanel}
 				>
-					Contacts
+					<i class="fa-solid fa-user  px-2"></i>
 				</button>
 			</div>
 
 			{showNewGroupForm && (
 				<div className="flex flex-col gap-2 p-2 w-full mb-2 rounded-md bg-violet-800/80">
 					<div htmlFor="" className="text-slate-200 text-center font-semibold text-xl">
-						Create Group
+						Create Group 
 					</div>
 					<input
 						placeholder="Enter group name"

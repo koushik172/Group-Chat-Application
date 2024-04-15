@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import axios from "axios";
+import AttachFile from "../Common/AttachFile";
 
 import { useContactContext } from "../../../Context/ContactContext";
 
@@ -22,7 +22,7 @@ export default function ContactChat() {
 		}
 
 		if (socket) {
-			socket.emit("send-message", { chatData: currentChat, message: message });
+			socket.emit("send-message", { chatData: currentChat, message: message, type: "message" });
 		}
 
 		setMessage("");
@@ -92,6 +92,7 @@ export default function ContactChat() {
 				{/* Chat Box */}
 				<div className="bg-violet-700/40 w-full p-2 gap-2 flex rounded-md">
 					<input name="" className="rounded-md w-full text-slate-800/80 px-2" value={message} onChange={handleMessageChange}></input>
+					<AttachFile />
 					<button
 						className={` px-4 py-1 rounded-md text-slate-200 font-semibold flex ${!message.length ? "bg-sky-900/80" : "bg-sky-500/80"}`}
 						disabled={!message.length}
