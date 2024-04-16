@@ -7,7 +7,11 @@ import { useContactContext } from "../../../Context/ContactContext";
 export default function Group({ group, index }) {
 	const { setCurrentGroupChat, setChatBox, socket } = useContactContext();
 
-	const groupData = JSON.parse(localStorage.getItem("group-" + group.groupId))[0];
+	let groupData;
+
+	if (localStorage.getItem("group-" + group.groupId)) {
+		groupData = JSON.parse(localStorage.getItem("group-" + group.groupId))[0];
+	}
 
 	async function selectChat(e) {
 		let li = e.currentTarget;

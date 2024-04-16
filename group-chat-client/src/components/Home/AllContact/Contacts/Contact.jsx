@@ -7,7 +7,11 @@ import { useContactContext } from "../../../Context/ContactContext";
 export default function Contact({ contact, index }) {
 	const { setCurrentChat, setChatBox } = useContactContext();
 
-	const groupData = JSON.parse(localStorage.getItem(contact.id))[0];
+	let chatData;
+
+	if (localStorage.getItem(contact.id)) {
+		chatData = JSON.parse(localStorage.getItem(contact.id))[0];
+	}
 
 	async function selectChat(e) {
 		let li = e.currentTarget;
@@ -51,12 +55,12 @@ export default function Contact({ contact, index }) {
 	}
 
 	function getLastText() {
-		if (groupData === undefined) {
+		if (chatData === undefined) {
 			return "No Chat";
-		} else if (groupData.type === "message") {
-			return groupData.message;
+		} else if (chatData.type === "message") {
+			return chatData.message;
 		} else {
-			return groupData.type;
+			return chatData.type;
 		}
 	}
 

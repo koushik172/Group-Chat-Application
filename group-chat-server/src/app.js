@@ -3,6 +3,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
+import job from "./utils/cronJobs.js";
+
 import { startChatIoServer } from "./sockets/socket.js";
 import sequelize from "./utils/database.js";
 
@@ -42,6 +44,7 @@ await sequelize
 		httpServer.listen(process.env.PORT, () => {
 			console.log(`http://localhost:${process.env.PORT}`);
 			startChatIoServer(httpServer);
+			job.start();
 		});
 	})
 	.catch((err) => {
