@@ -12,8 +12,7 @@ export const createGroup = async (req, res) => {
 			userPhone: req.user.phone,
 			memberType: "owner",
 		});
-		console.log(group);
-		res.status(300).send("Group Created Sucessfully");
+		res.status(200).send("Group Created Sucessfully");
 	} catch (error) {
 		console.log(error);
 		res.status(200).send("Unsucessfull");

@@ -42,6 +42,8 @@ export default function Groups() {
 				}
 			);
 			alert(res.data);
+			setNewGroupName("");
+			getGroups();
 		} catch (error) {
 			console.log(error);
 		}
@@ -78,6 +80,8 @@ export default function Groups() {
 		getGroups();
 	}, []);
 
+	useEffect(() => {}, [memberGroups]);
+
 	useEffect(() => {
 		if (socket) {
 			socket.on("groupMessage", (message) => {
@@ -109,14 +113,14 @@ export default function Groups() {
 	return (
 		<div className="h-full  flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
 			<div className="w-full flex ">
-				<span className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-s-md">
+				<span className="bg-violet-600/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-s-md">
 					<i className="fa-solid fa-user-group px-2"></i>
 					<div className="select-none">
 						<a onClick={toogleShowNewGroupForm} className="cursor-pointer px-2 text-md items-center rounded-md">
-							➕
+							<i className="fa-solid fa-plus"></i>
 						</a>
 						<a onClick={toogleJoinGroupForm} className="cursor-pointer px-2 text-md items-center rounded-md">
-							🔍
+							<i className="fa-solid fa-magnifying-glass"></i>
 						</a>
 					</div>
 				</span>
@@ -164,7 +168,7 @@ export default function Groups() {
 				</div>
 			)}
 
-			<ol className="bg-blue-700/40 text-slate-300 w-full h-full rounded-md overflow-y-auto">
+			<ol className="bg-blue-700/50 text-slate-300 w-full h-full rounded-md overflow-y-auto">
 				{memberGroups &&
 					memberGroups.map((group, index) => {
 						return <Group group={group} key={index} />;

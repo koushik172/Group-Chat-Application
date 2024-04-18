@@ -90,10 +90,10 @@ export default function Contacts() {
 	return (
 		<div className="h-full flex flex-col justify-end items-center py-4 pl-4 overflow-y-auto">
 			<div className="w-full flex">
-				<p className="bg-violet-900/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-s-md">
+				<p className="bg-violet-600/80 text-slate-200 font-bold text-lg w-full flex justify-between items-center p-2 mb-2 rounded-s-md">
 					<i className="fa-solid fa-user ps-2"></i>
 					<a onClick={toogleShowNewContactForm} className="cursor-pointer px-2 text-md select-none items-center rounded-md">
-						➕
+						<i className="fa-solid fa-plus"></i>
 					</a>
 				</p>
 				<button
@@ -119,7 +119,7 @@ export default function Contacts() {
 				</div>
 			)}
 
-			<ol className="bg-blue-700/40 text-slate-300 w-full h-full rounded-md overflow-y-auto">
+			<ol className="bg-blue-700/50 text-slate-300 w-full h-full rounded-md overflow-y-auto">
 				{contacts &&
 					contacts.map((contact, index) => {
 						return <Contact contact={contact} key={index} />;

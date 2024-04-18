@@ -60,3 +60,42 @@ export const login = async (req, res) => {
 			res.status(404).send({ Messege: "User Not Found" });
 		});
 };
+
+export const getInfo = async (req, res) => {
+	let user = await User.findOne({ where: { id: req.body.user2Id } });
+
+	if (user) {
+		res.status(200).send({ name: user.name, phone: user.phone, email: user.email });
+	} else {
+		res.status(404).send("NOT FOUND");
+	}
+};
+
+export const updateInfo = async (req, res) => {
+	const { name, value } = req.body.updateInfo;
+	console.log(name, value);
+
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	const phoneRegex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+
+	if (!emailRegex.test(value) && !phoneRegex.test(value)) {
+		res.status(400).send("Invalid email or phone.");
+		return;
+	} else {
+		let alreadyExists = await User.findOne({ where: { [name]: value } });
+
+		if (alreadyExists) {
+			console.log(alreadyExists);
+			res.status(400).send("Already taken");
+			return;
+		}
+
+		if (req.user[name] !== value) {
+			req.user[name] = value;
+			req.user.save();
+			res.status(201).send("Update Successfull.");
+			return;
+		}
+		res.status(400).send("Invalid data.");
+	}
+};

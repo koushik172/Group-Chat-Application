@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useContactContext } from "../../../Context/ContactContext";
 import ContactMessage from "./ContactMessage";
 import AttachFile from "../Common/AttachFile";
+import ManageMenu from "./ManageMenu";
 
 export default function ContactChat() {
 	const { currentChat, socket } = useContactContext();
+
+	const [manageMenu, setManageMenu] = useState(false);
 
 	const [message, setMessage] = useState("");
 
@@ -13,6 +16,12 @@ export default function ContactChat() {
 
 	async function handleMessageChange(e) {
 		setMessage(e.target.value);
+	}
+
+	function toogleManageMenu() {
+		// console.log(currentChat);
+		if (!currentChat.user2Name) return;
+		setManageMenu(!manageMenu);
 	}
 
 	async function sendMessage() {
@@ -48,31 +57,40 @@ export default function ContactChat() {
 		<>
 			<div className="h-full w-10/12 flex flex-col justify-between items-center p-4 text-slate-200 ">
 				{/* Chat Header */}
-				<p className="bg-violet-900/80 w-full flex justify-center p-3 rounded-md font-semibold">
-					{currentChat.user2Name ? currentChat.user2Name : "Select a Conatct"}
-				</p>
+				<div className="bg-violet-700/80 w-full flex p-2 rounded-md font-semibold">
+					<button className=" text-xl cursor-pointer items-center px-8" onClick={toogleManageMenu}>
+						{currentChat.user2Name ? currentChat.user2Name : "Select a Group"}
+						{currentChat.user2Name && <a className="text-xs  whitespace-pre text-slate-200/50"> click for more info.</a>}
+					</button>
+				</div>
 
 				{/* Chat Board */}
-				<ol className="bg-violet-700/40 w-full h-[12rem] md:h-[12rem] lg:h-full p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto">
-					{currentChat.user2Name ? (
-						<div>
-							{messageStorage &&
-								messageStorage
-									.slice()
-									.reverse()
-									.map((item, index) => {
-										return <ContactMessage key={index} item={item} index={index} currentChat={currentChat} />;
-									})}
-						</div>
-					) : (
-						<div className="flex justify-center items-center h-full text-6xl font-semibold">
-							Welcome {localStorage.getItem("Username")}
-						</div>
-					)}
-				</ol>
+
+				{manageMenu === true ? (
+					// Manage Menu
+					<ManageMenu />
+				) : (
+					<ol className="bg-blue-600/50 w-full h-[12rem] md:h-[12rem] lg:h-full p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto">
+						{currentChat.user2Name ? (
+							<div>
+								{messageStorage &&
+									messageStorage
+										.slice()
+										.reverse()
+										.map((item, index) => {
+											return <ContactMessage key={index} item={item} index={index} currentChat={currentChat} />;
+										})}
+							</div>
+						) : (
+							<div className="flex justify-center items-center h-full text-6xl font-semibold">
+								Welcome {localStorage.getItem("Username")}
+							</div>
+						)}
+					</ol>
+				)}
 
 				{/* Chat Box */}
-				<div className="bg-violet-700/40 w-full p-2 gap-2 flex rounded-md">
+				<div className="bg-violet-700/80 w-full p-2 gap-2 flex rounded-md">
 					<input name="" className="rounded-md w-full text-slate-800/80 px-2" value={message} onChange={handleMessageChange}></input>
 					<AttachFile />
 					<button
@@ -80,7 +98,7 @@ export default function ContactChat() {
 						disabled={!message.length}
 						onClick={sendMessage}
 					>
-						Send
+						<i className="fa-solid fa-paper-plane py-1 px-2"></i>
 					</button>
 				</div>
 			</div>

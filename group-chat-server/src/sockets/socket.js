@@ -79,6 +79,7 @@ export const startChatIoServer = (httpServer) => {
 			if (!userGroups.has(socket.user.id)) {
 				userGroups.set(socket.user.id, new Set());
 			}
+			
 			userGroups.get(socket.user.id).add(groupId);
 
 			console.log(`User ${socket.user.id} joined group ${groupId}`);

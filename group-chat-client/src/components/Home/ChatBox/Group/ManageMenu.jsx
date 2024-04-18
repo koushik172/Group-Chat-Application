@@ -173,7 +173,7 @@ export default function ManageMenu() {
 							onChange={handleSearchUserChange}
 						/>
 
-						<button className="bg-blue-900/80 hover:bg-sky-500/80 px-2 py-1 rounded-md text-lg" onClick={searchUser}>
+						<button className="bg-blue-700/70 hover:bg-sky-500/80 px-2 py-1 rounded-md text-lg" onClick={searchUser}>
 							Search
 						</button>
 					</div>

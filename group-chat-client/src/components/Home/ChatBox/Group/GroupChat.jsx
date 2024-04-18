@@ -30,7 +30,6 @@ export default function GroupChat() {
 			alert("Select a chat!");
 			return;
 		}
-		console.log(socket.rooms);
 
 		if (socket) {
 			socket.emit("sendGroupMessage", { groupId: currentGroupChat.groupId, message: message, type: "message" });
@@ -59,7 +58,7 @@ export default function GroupChat() {
 		<>
 			<div className="h-full w-10/12 flex flex-col justify-between items-center p-4 text-slate-200 ">
 				{/* Group Chat Header */}
-				<div className="bg-violet-900/80 w-full flex p-2 rounded-md font-semibold">
+				<div className="bg-violet-700/80 w-full flex p-2 rounded-md font-semibold">
 					<button className=" text-xl cursor-pointer items-center px-8" onClick={toogleManageMenu}>
 						{currentGroupChat.groupName ? currentGroupChat.groupName : "Select a Group"}
 						{currentGroupChat.groupName && <a className="text-xs  whitespace-pre text-slate-200/50"> click for more info.</a>}
@@ -71,7 +70,7 @@ export default function GroupChat() {
 					<ManageMenu />
 				) : (
 					// Chat Messages
-					<ol className="bg-violet-700/40 w-full h-[12rem] md:h-[12rem] lg:h-full p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto">
+					<ol className="bg-blue-600/50 w-full h-[12rem] md:h-[12rem] lg:h-full p-2 m-2 rounded-md px-16 pt-8 overflow-y-auto">
 						{currentGroupChat.groupName ? (
 							<div>
 								{messageStorage &&
@@ -91,7 +90,7 @@ export default function GroupChat() {
 				)}
 
 				{/* Group Chat Box */}
-				<div className="bg-violet-700/40 w-full p-2 gap-2 flex rounded-md">
+				<div className="bg-violet-700/80 w-full p-2 gap-2 flex rounded-md">
 					<input name="" className="rounded-md w-full text-slate-800/80 px-2" value={message} onChange={handleMessageChange}></input>
 					<AttachFile />
 					<button
@@ -99,7 +98,7 @@ export default function GroupChat() {
 						disabled={!message.length}
 						onClick={sendMessage}
 					>
-						Send
+						<i className="fa-solid fa-paper-plane py-1 px-2"></i>
 					</button>
 				</div>
 			</div>

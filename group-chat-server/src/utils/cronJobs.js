@@ -5,7 +5,7 @@ import Chat from "../models/chat.js";
 import GroupChat from "../models/group-chat.js";
 
 const job = new CronJob(
-	"0 * * * * *", // cronTime
+	"0 0 0 * * *", // cronTime
 	async function () {
 		let date = new Date();
 		let startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
